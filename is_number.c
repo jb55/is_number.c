@@ -1,21 +1,9 @@
 
 #include <ctype.h>
+#include <assert.h>
+#include "is_number.h"
 
-enum num_state {
-    NUM_START,
-    NUM_NEG,
-    NUM_PRE_DOT,
-    NUM_DOT,
-    NUM_POST_DOT
-};
-
-enum num_options {
-  ALLOW_EMPTY_PRE_DOT = 1 << 1,
-  ALLOW_EMPTY_POST_DOT = 1 << 2
-};
-
-int
-is_number_with(const char *num, int len, int options) {
+int is_number_with(const char *num, int len, int options) {
     int state = NUM_START;
 
     for (int i = 0; i < len; ++i) {
@@ -25,8 +13,12 @@ is_number_with(const char *num, int len, int options) {
         case NUM_START:
             if (c == '-')
                 state = NUM_NEG;
+            else if (!(options & STRICT_WHITESPACE) && isspace(c))
+                continue;
             else if (isdigit(c))
                 state = NUM_PRE_DOT;
+            else if ((options & ALLOW_EMPTY_PRE_DOT) && c == '.')
+              state = NUM_DOT;
             else
                 return 0;
             break;
@@ -55,25 +47,30 @@ is_number_with(const char *num, int len, int options) {
         case NUM_POST_DOT:
             if (!isdigit(c))
                 return 0;
+            else if (!(options & STRICT_WHITESPACE) && isspace(c))
+                state = NUM_END_WHITESPACE;
+            break;
+        case NUM_END_WHITESPACE:
+            if (!isspace(c))
+              return 0;
             break;
         }
     }
 
-    int is_valid = state == NUM_PRE_DOT || state == NUM_POST_DOT;
-
-    if (is_valid)
+    if (state == NUM_PRE_DOT || state == NUM_POST_DOT)
       return 1;
 
-    if ((options & ALLOW_EMPTY_POST_DOT) && state == NUM_DOT) {
+    if ((options & ALLOW_EMPTY_POST_DOT) && state == NUM_DOT)
       return 1;
-    }
+
+    if (!(options & STRICT_WHITESPACE) && state == NUM_END_WHITESPACE)
+      return 1;
 
     return 0;
 }
 
 
 
-int
-is_number(const char *num, int len) {
+int is_number(const char *num, int len) {
   return is_number_with(num, len, 0);
 }
