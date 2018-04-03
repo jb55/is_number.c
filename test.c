@@ -11,7 +11,7 @@
 int main()
 {
   int test = 1;
-  int tests = 20;
+  int tests = 30;
 
   int prepost = ALLOW_EMPTY_POST_DOT | ALLOW_EMPTY_PRE_DOT;
 
