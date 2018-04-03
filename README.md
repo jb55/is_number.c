@@ -1,6 +1,8 @@
 
 # is_number.c
 
+[![Build Status](https://travis-ci.org/jb55/is_number.c.svg)](https://travis-ci.org/jb55/is_number.c)
+
   Very fast number testing
 
 ## Installation
