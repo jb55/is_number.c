@@ -44,6 +44,15 @@ int main()
   assert(is_number("10.0", strsize("10.0")) == 1);
   printf("ok %i  '10.0' is a number\n", test++);
 
+  assert(is_number_with("10.0", strsize("10.0"), ONLY_TEST_INT) == 0);
+  printf("ok %i  '10.0' is NOT a number with ONLY_TEST_INT\n", test++);
+
+  assert(is_number_with(".0", strsize(".0"), ONLY_TEST_INT | ALLOW_EMPTY_PRE_DOT) == 0);
+  printf("ok %i  '.0' is NOT a number with ONLY_TEST_INT | ALLOW_EMPTY_PRE_DOT\n", test++);
+
+  assert(is_number_with("0.", strsize("0."), ONLY_TEST_INT | ALLOW_EMPTY_POST_DOT) == 0);
+  printf("ok %i  '0.' is NOT a number with ONLY_TEST_INT | ALLOW_EMPTY_POST_DOT\n", test++);
+
   assert(is_number(" 10", strsize(" 10")) == 1);
   printf("ok %i  ' 10' is a number\n", test++);
 

@@ -1,0 +1,9 @@
+{
+  "name": "is_number",
+  "version": "0.1",
+  "repo": "jb55/is_number.c",
+  "description": "test a string to see if it's a number",
+  "keywords": ["is_number", "number"],
+  "license": "MIT",
+  "src": ["is_number.c", "is_number.h"]
+}

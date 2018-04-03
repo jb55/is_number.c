@@ -26,9 +26,9 @@ int is_number_with(const char *num, int len, int options) {
             if (isdigit(c))
                 state = NUM_PRE_DOT;
             else if ((options & ALLOW_EMPTY_PRE_DOT) && c == '.')
-              state = NUM_DOT;
+                state = NUM_DOT;
             else
-              return 0;
+                return 0;
             break;
         case NUM_PRE_DOT:
             if (c == '.')
@@ -39,6 +39,8 @@ int is_number_with(const char *num, int len, int options) {
                 return 0;
             break;
         case NUM_DOT:
+            if (options & ONLY_TEST_INT)
+                return 0;
             if (isdigit(c))
                 state = NUM_POST_DOT;
             else
@@ -60,7 +62,9 @@ int is_number_with(const char *num, int len, int options) {
     if (state == NUM_PRE_DOT || state == NUM_POST_DOT)
       return 1;
 
-    if ((options & ALLOW_EMPTY_POST_DOT) && state == NUM_DOT)
+    if ((options & ALLOW_EMPTY_POST_DOT) &&
+       !(options & ONLY_TEST_INT) &&
+        state == NUM_DOT)
       return 1;
 
     if (!(options & STRICT_WHITESPACE) && state == NUM_END_WHITESPACE)
