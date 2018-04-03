@@ -5,8 +5,9 @@
 
 int is_number_with(const char *num, int len, int options) {
     int state = NUM_START;
+    int i;
 
-    for (int i = 0; i < len; ++i) {
+    for (i = 0; i < len; ++i) {
         const char c = num[i];
 
         switch (state) {
