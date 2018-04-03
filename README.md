@@ -40,3 +40,4 @@ enum is_num_options {
   ONLY_TEST_INT        = 1 << 4   // don't allow decimals/floats
 };
 ```
+
