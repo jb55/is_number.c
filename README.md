@@ -14,7 +14,7 @@
 ## Example
 
 ```c
-#include "is_number.h"
+#include "is_number/is_number.h"
 #include <assert.h>
 
 int main() {
