@@ -1,6 +1,8 @@
 
+CFLAGS=-Wall -Wextra -O
+
 test: test.o is_number.o
-	@$(CC) -O $^ -o $@
+	@$(CC) $(CFLAGS) -O $^ -o $@
 	@./test
 
 clean:
